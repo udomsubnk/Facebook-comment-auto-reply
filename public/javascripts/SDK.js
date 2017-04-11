@@ -17,15 +17,18 @@ window.fbAsyncInit = function() {
 function loginApp(){
   FB.login(function(res) {
     if(res.status == "connected"){
-      console.log("connected : "+res)
+      console.log("connected")
+      console.log(res)
     }else {
-      console.log("error : "+res)
+      console.log("error")
+      console.log(res)
     }
   }, {scope: 'public_profile,email'});
 }
 
 function logoutApp(){
   FB.logout(function(res) {
-    console.log("logout : "+res)
+    console.log("logout")
+    console.log(res)
   });
 }
