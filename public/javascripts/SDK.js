@@ -32,3 +32,9 @@ function logoutApp(){
     console.log(res)
   });
 }
+
+function getProfile(){
+  FB.api('/me', function(response) {
+    console.log(response);
+  });
+}
