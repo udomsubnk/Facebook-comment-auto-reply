@@ -23,3 +23,13 @@ function checkLoginState() {
     statusChangeCallback(response);
   });
 }
+
+function statusChangeCallback(response) {
+  console.log('statusChangeCallback');
+  console.log(response);
+  if (response.status === 'connected') {
+    console.log('connected')
+  } else {
+    console.log('msg')
+  }
+}
