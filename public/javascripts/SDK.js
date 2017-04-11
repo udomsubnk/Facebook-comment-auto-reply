@@ -1,15 +1,3 @@
-window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '106886806531561',
-    xfbml      : true,
-    version    : 'v2.8'
-  });
-  FB.AppEvents.logPageView();
-  FB.getLoginStatus(function(res) {
-    console.log(res)
-  });
-};
-
 (function(d, s, id){
    var js, fjs = d.getElementsByTagName(s)[0];
    if (d.getElementById(id)) {return;}
@@ -18,18 +6,11 @@ window.fbAsyncInit = function() {
    fjs.parentNode.insertBefore(js, fjs);
  }(document, 'script', 'facebook-jssdk'));
 
-function checkLoginState() {
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '106886806531561',
+    xfbml      : true,
+    version    : 'v2.8'
   });
-}
-
-function statusChangeCallback(response) {
-  console.log('statusChangeCallback');
-  console.log(response);
-  if (response.status === 'connected') {
-    console.log('connected')
-  } else {
-    console.log('msg')
-  }
-}
+  FB.AppEvents.logPageView();
+};
