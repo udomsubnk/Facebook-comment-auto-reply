@@ -12,17 +12,8 @@ window.fbAsyncInit = function() {
     version    : 'v2.8'
   });
   FB.AppEvents.logPageView();
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
 };
-function statusChangeCallback(res){
-  if(res.status == "connected"){
-    FB.api('/me', function(response) {
-      console.log("Hello "+response.name);
-    });
-  }else console.log("Please Login");
-}
+
 function loginApp(){
   FB.login(function(res) {
     if(res.status == "connected"){
@@ -39,11 +30,5 @@ function logoutApp(){
   FB.logout(function(res) {
     console.log("logout")
     console.log(res)
-  });
-}
-
-function getProfile(){
-  FB.api('/me', function(response) {
-    console.log("Hello "+response.name);
   });
 }
