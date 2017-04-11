@@ -18,8 +18,8 @@ window.fbAsyncInit = function() {
    fjs.parentNode.insertBefore(js, fjs);
  }(document, 'script', 'facebook-jssdk'));
 
-function getLoginStatus(){
-  FB.getLoginStatus(function(res) {
-    console.log(res)
+function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
   });
 }
