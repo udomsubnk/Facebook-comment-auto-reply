@@ -5,7 +5,6 @@
    js.src = "//connect.facebook.net/en_US/sdk.js";
    fjs.parentNode.insertBefore(js, fjs);
  }(document, 'script', 'facebook-jssdk'));
-
 window.fbAsyncInit = function() {
   FB.init({
     appId      : '106886806531561',
@@ -14,3 +13,19 @@ window.fbAsyncInit = function() {
   });
   FB.AppEvents.logPageView();
 };
+
+function loginApp(){
+  FB.login(function(res) {
+    if(res.status == "connected"){
+      console.log("connected : "+res)
+    }else {
+      console.log("error : "+res)
+    }
+  }, {scope: 'public_profile,email'});
+}
+
+function logoutApp(){
+  FB.logout(function(res) {
+    console.log("logout : "+res)
+  });
+}
