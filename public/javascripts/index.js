@@ -3,6 +3,11 @@ function loginApp(){
     if(res.status == "connected"){
       console.log("connected")
       console.log(res)
+      $.post('/login',res, function(data, textStatus, xhr) {
+        if(data=='success'){
+          window.location = "/dashboard";
+        }
+      });
     }else {
       console.log("error")
       console.log(res)
