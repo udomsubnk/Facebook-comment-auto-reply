@@ -8,5 +8,9 @@ router.get('/', function(req, res, next) {
 router.get('/dashboard',function(req,res,next){
 	res.render('dashboard',{title:'Dashboard',layout:'layout/dashboard'});
 });
+router.post('/login',function(req,res,next){
+	data = req.authResponse;
+	res.send("success")
+})
 
 module.exports = router;
