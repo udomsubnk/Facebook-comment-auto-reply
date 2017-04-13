@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var mysql = require('mysql');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -30,5 +31,19 @@ function getProfile(userId,token){
   		insertToDB(id,email,first_name,last_name,gender,picture,signup_time);
 	})
 }
-
+function insertToDB(id,email,first_name,last_name,gender,picture,signup_time){
+	var connection = mysql.createConnection({
+	  host     : 'localhost',
+	  user     : 'root',
+	  password : '',
+	  database : 'FacebookAssister'
+	});
+	connection.connect()
+	let queryCommand = `INSERT INTO 'Users' VALUES ('${id}','${email}','${first_name}','${last_name}','${gender}','${picture}','${link}','${signup_time}')`;
+	connection.query(queryCommand, function (err, rows, fields) {
+  		if (err) throw err
+  		console.log('insertToDB Success!')
+  		connection.end()
+	})
+}
 module.exports = router;
