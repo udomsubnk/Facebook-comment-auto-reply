@@ -11,7 +11,8 @@ router.get('/dashboard',function(req,res,next){
 	res.render('dashboard',{title:'Dashboard',layout:'layout/dashboard'});
 });
 router.post('/login',function(req,res,next){
-	data = req.authResponse;
+	data = req.body;
+	console.log(data.userID,data.accessToken)
 	getProfile(data.userID,data.accessToken)
 	res.send("success")
 })
@@ -27,11 +28,12 @@ function getProfile(userId,token){
   		let last_name = data.last_name;
   		let gender = (data.gender=='male')?'M':'F';
   		let picture = data.picture.data.url;
+  		let link = data.link;
   		let signup_time = 'CURRENT_TIMESTAMP';
-  		insertToDB(id,email,first_name,last_name,gender,picture,signup_time);
+  		insertToDB(id,email,first_name,last_name,gender,picture,link,signup_time);
 	})
 }
-function insertToDB(id,email,first_name,last_name,gender,picture,signup_time){
+function insertToDB(id,email,first_name,last_name,gender,picture,link,signup_time){
 	var connection = mysql.createConnection({
 	  host     : 'localhost',
 	  user     : 'root',
@@ -39,7 +41,7 @@ function insertToDB(id,email,first_name,last_name,gender,picture,signup_time){
 	  database : 'FacebookAssister'
 	});
 	connection.connect()
-	let queryCommand = `INSERT INTO 'Users' VALUES ('${id}','${email}','${first_name}','${last_name}','${gender}','${picture}','${link}','${signup_time}')`;
+	let queryCommand = `INSERT INTO Users VALUES ('${id}','${email}','${first_name}','${last_name}','${gender}','${picture}','${link}',${signup_time});`;
 	connection.query(queryCommand, function (err, rows, fields) {
   		if (err) throw err
   		console.log('insertToDB Success!')
