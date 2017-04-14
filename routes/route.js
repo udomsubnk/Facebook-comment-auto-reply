@@ -20,7 +20,13 @@ router.post('/login',function(req,res,next){
 	data = req.body;
 	session = req.session;
 	createSession(data)
-	.then(function(){
+	.then(function(row){
+		session.userId = row.userId;
+		session.email = row.email;
+		session.first_name = row.first_name;
+		session.last_name = row.last_name;
+		session.picture = row.picture;
+		console.log(session)
 		res.send("success")
 	})
 	.catch(function(){
@@ -33,16 +39,16 @@ async function createSession(data){
 	return await new Promise(function(resolve,reject){
 		is_newMember(data.userID)
 		.then(function(row){
-			session.userId = row.userId
+			// session.userId = row.userId
 			console.log("is member")
-			resolve()
+			resolve(row)
 		})
 		.catch(function(){
 			getProfile(data.userID,data.accessToken)
 			.then(function(row){
-				session.userId = row.userId
+				// session.userId = row.userId
 				console.log("not member")
-				resolve()
+				resolve(row)
 			})
 			.catch(function(){
 				console.log("error!")
@@ -91,7 +97,10 @@ async function getProfile(userId,token){
 	  		let signup_time = 'CURRENT_TIMESTAMP';
 	  		insertToDB(id,email,first_name,last_name,gender,picture,link,signup_time)
 	  		.then(function(row){
-	  			resolve(row)
+	  			var data = {
+	  				id,email,first_name,last_name,gender,picture,link,signup_time
+	  			}
+	  			resolve(data)
 	  		})
 	  		.catch(function(err){
 	  			reject();
@@ -101,7 +110,6 @@ async function getProfile(userId,token){
 	})	
 }
 async function insertToDB(id,email,first_name,last_name,gender,picture,link,signup_time){
-	console.log(0)
 	return await new Promise(function(resolve,reject){	
 		let queryCommand = `INSERT INTO Users VALUES ('${id}','${email}','${first_name}','${last_name}','${gender}','${picture}','${link}',${signup_time});`;
 		var connection = mysql.createConnection({

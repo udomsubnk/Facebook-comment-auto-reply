@@ -16,10 +16,3 @@ function loginApp(){
     }
   }, {scope: 'public_profile,email'});
 }
-
-function logoutApp(){
-  FB.logout(function(res) {
-    console.log("logout")
-    console.log(res)
-  });
-}
