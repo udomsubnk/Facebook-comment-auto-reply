@@ -33,6 +33,14 @@ router.post('/login',function(req,res,next){
 		res.send("fail")
 	})
 })
+//Logout for detroy session
+router.post('/logout',function(req,res,next){
+	req.session.destroy(function(err){
+		if(err)
+			console.log(err);
+		res.send('destroyed');
+	});
+});
 module.exports = router;
 
 async function createSession(data){
