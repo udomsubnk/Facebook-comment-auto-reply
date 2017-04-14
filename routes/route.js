@@ -20,6 +20,7 @@ router.post('/login',function(req,res,next){
 		res.send("fail")
 	})
 })
+module.exports = router;
 
 async function createSession(data){
 	return await new Promise(function(resolve,reject){
@@ -115,4 +116,3 @@ async function insertToDB(id,email,first_name,last_name,gender,picture,link,sign
 		})
 	});
 }
-module.exports = router;
