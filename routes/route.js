@@ -3,15 +3,22 @@ var router = express.Router();
 var request = require('request');
 var mysql = require('mysql');
 
+var session;
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Facebook Assister',layout:'layout/layout' });
+  	res.render('index', { title: 'Facebook Assister',layout:'layout/layout' });
 });
 router.get('/dashboard',function(req,res,next){
-	res.render('dashboard',{title:'Dashboard',layout:'layout/dashboard'});
+	session = req.session;
+	if(session.userId){
+		res.render('dashboard',{title:'Dashboard',layout:'layout/dashboard'});
+	}else{
+		res.redirect('/');
+	}
 });
 router.post('/login',function(req,res,next){
 	data = req.body;
+	session = req.session;
 	createSession(data)
 	.then(function(){
 		res.send("success")
@@ -26,17 +33,16 @@ async function createSession(data){
 	return await new Promise(function(resolve,reject){
 		is_newMember(data.userID)
 		.then(function(row){
-			// createsession
+			session.userId = row.userId
 			console.log("is member")
 			resolve()
 		})
 		.catch(function(){
 			getProfile(data.userID,data.accessToken)
 			.then(function(row){
-				// createsession
+				session.userId = row.userId
 				console.log("not member")
 				resolve()
-
 			})
 			.catch(function(){
 				console.log("error!")
