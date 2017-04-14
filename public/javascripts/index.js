@@ -6,6 +6,8 @@ function loginApp(){
       $.post('/login',res.authResponse, function(data, textStatus, xhr) {
         if(data=='success'){
           window.location = "/dashboard";
+        }else{
+          alert('Error!\nPlease try again.')
         }
       });
     }else {
