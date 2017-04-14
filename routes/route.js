@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 router.get('/dashboard',function(req,res,next){
 	session = req.session;
 	if(session.userId){
-		res.render('dashboard',{title:'Dashboard',layout:'layout/dashboard'});
+		res.render('dashboard',{title:'Dashboard',layout:'layout/dashboard',session});
 	}else{
 		res.redirect('/');
 	}
@@ -25,6 +25,7 @@ router.post('/login',function(req,res,next){
 		session.first_name = row.first_name;
 		session.last_name = row.last_name;
 		session.picture = row.picture;
+		session.accenToken = data.accessToken
 		console.log(session)
 		res.send("success")
 	})
