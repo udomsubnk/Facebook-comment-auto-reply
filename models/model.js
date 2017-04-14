@@ -62,7 +62,7 @@ async function getProfile(userId,token){
 	  		insertToDB(id,email,first_name,last_name,gender,picture,link,signup_time)
 	  		.then(function(row){
 	  			var data = {
-	  				id,email,first_name,last_name,gender,picture,link,signup_time
+	  				userId:id,email,first_name,last_name,gender,picture,link,signup_time
 	  			}
 	  			resolve(data)
 	  		})
