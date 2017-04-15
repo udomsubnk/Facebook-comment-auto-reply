@@ -5,7 +5,12 @@ var createSession = require('../models/model')
 var session;
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  	res.render('index', { title: 'Facebook Assister',layout:'layout/layout' });
+	session = req.session;
+	if(session.userId){
+		res.redirect('/dashboard');
+	}else{
+	  	res.render('index', { title: 'Facebook Assister',layout:'layout/layout' });
+	}
 });
 router.get('/dashboard',function(req,res,next){
 	session = req.session;
@@ -14,6 +19,25 @@ router.get('/dashboard',function(req,res,next){
 	}else{
 		res.redirect('/');
 	}
+});
+router.get('/project',function(req,res,next){
+	session = req.session;
+	if(session.userId && session.pages.length){
+		res.render('project',{title:'New project',layout:'layout/project',session});
+	}else{
+		res.redirect('/dashboard');
+	}
+});
+router.post('/setPages',function(req,res,next){
+	session = req.session;
+	if(session.userId){
+		session.pages = JSON.parse(req.body.res).data;
+		console.log(session.pages)
+		res.send("success");
+	}else{
+		res.send("fail")
+	}
+
 });
 router.post('/login',function(req,res,next){
 	data = req.body;
@@ -26,7 +50,6 @@ router.post('/login',function(req,res,next){
 		session.last_name = row.last_name;
 		session.picture = row.picture;
 		session.accenToken = data.accessToken
-		console.log(session)
 		res.send("success")
 	})
 	.catch(function(){
