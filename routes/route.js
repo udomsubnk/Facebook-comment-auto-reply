@@ -50,7 +50,7 @@ router.post('/login',function(req,res,next){
 		session.first_name = row.first_name;
 		session.last_name = row.last_name;
 		session.picture = row.picture;
-		session.accenToken = data.accessToken
+		session.access_token = data.accessToken
 		res.send("success")
 	})
 	.catch(function(){
@@ -64,5 +64,14 @@ router.post('/logout',function(req,res,next){
 			console.log(err);
 		res.send('destroyed');
 	});
+});
+router.post('/callaccounts',function(req,res,next){
+	session = req.session;
+	model.callaccounts(session.access_token)
+		.then(function(data){
+			console.log(JSON.stringify(data))
+			session.pages = data.accounts.data;
+			res.send("success")
+		})
 });
 module.exports = router;

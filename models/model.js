@@ -7,9 +7,18 @@ var password = ''
 var database = 'FacebookAssister'
 
 module.exports = {
-	createSession
+	createSession,callaccounts
 }
 
+async function callaccounts(user_token){
+	return await new Promise(function(resolve,reject){
+		let url = "https://graph.facebook.com/v2.9/me?fields=accounts%7Bname%2Cid%2Cperms%2Cpicture%2Caccess_token%7D&access_token="+user_token;
+		request(url,function(err,res,body){
+			if(err) reject()
+			resolve(JSON.parse(body))
+		});
+	});
+}
 async function updateToken(userId,token){
 	return await new Promise(function(resolve,reject){
 		let queryCommand = `UPDATE Users SET access_token = '${token}' WHERE userId = '${userId}';`
