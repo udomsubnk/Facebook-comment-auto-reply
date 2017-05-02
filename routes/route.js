@@ -77,7 +77,8 @@ router.post('/choosedpage',function(req,res,next){
 	let page_id = req.body.page_id;
 	let page_name = req.body.page_name;
 	let page_access_token = req.body.page_access_token;
-	model.choosedpage(page_id,page_name,page_access_token)
+	let user_id = req.session.userId
+	model.choosedpage(page_id,page_name,page_access_token,user_id)
 		.then((page_id)=>{res.send('success'+','+page_id)})
 		.catch(()=>{res.send('fail')})
 });

@@ -10,9 +10,9 @@ module.exports = {
 	createSession,callaccounts,choosedpage
 }
 
-async function choosedpage(page_id,page_name,page_access_token){
+async function choosedpage(page_id,page_name,page_access_token,user_id){
 	return await new Promise(function(resolve,reject){
-		let queryCommand = `INSERT INTO Pages VALUES ('${page_id}','${page_name}','page_access_token');`;
+		let queryCommand = `INSERT INTO Pages VALUES ('${page_id}','${page_name}','${page_access_token}','${user_id}');`;
 		var connection = mysql.createConnection({host,user,password,database});
 		connection.connect(function(err,callback){
 			connection.query(queryCommand, function (errr, rows, fields) {
