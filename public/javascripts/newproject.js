@@ -10,15 +10,18 @@ function selected(page_id,page_access_token){
 	}
 }
 function next(){
-	$('#next').prop('disabled', true); //disable continue button
 	if(data == undefined){
 		alert('Please choose one')
 		return;
 	}else{
+		$('#next').prop('disabled', true); //disable continue button
 		$.post('/choosedpage',data, function(data, textStatus, xhr) {
 			data = data.split(',')
 			if(data[0] == 'success'){
 				window.location = '/project/'+data[1];
+			}else{
+				alert('ผิดพลาด')
+				window.location = '/';
 			}
 		});
 	}
