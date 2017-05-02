@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var createSession = require('../models/model')
+var model = require('../models/model')
 
 var session;
 /* GET home page. */
@@ -20,10 +20,11 @@ router.get('/dashboard',function(req,res,next){
 		res.redirect('/');
 	}
 });
-router.get('/project',function(req,res,next){
+router.get('/newproject',function(req,res,next){
 	session = req.session;
+	console.log(session.pages)
 	if(session.userId && session.pages.length){
-		res.render('project',{title:'New project',layout:'layout/project',session});
+		res.render('newproject',{title:'New project',layout:'layout/newproject',session});
 	}else{
 		res.redirect('/dashboard');
 	}
@@ -42,7 +43,7 @@ router.post('/setPages',function(req,res,next){
 router.post('/login',function(req,res,next){
 	data = req.body;
 	session = req.session;
-	createSession(data)
+	model.createSession(data)
 	.then(function(row){
 		session.userId = row.userId;
 		session.email = row.email;

@@ -1,0 +1,19 @@
+res from call api when create() in dashboard.js
+and used in newproject view
+{"data":
+  [
+    {
+      "access_token":"xxxx",
+      "name":"SEYA AUTO 5D Carpets - Chachoengsao",
+      "id":"645986682242467",
+      "picture":{"data":{"is_silhouette":false,"url":"https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/15192561_715014592006342_5386754145656676498_n.jpg?oh=36137b9061962f314a049b0745526fc4&oe=59B831CD"}},
+      "perms":["ADMINISTER","EDIT_PROFILE","CREATE_CONTENT","MODERATE_CONTENT","CREATE_ADS","BASIC_ADMIN"]
+    },{
+      "access_token":"yyyy",
+      "name":"Kao's Bot",
+      "id":"1648737758766560",
+      "picture":{"data":{"is_silhouette":false,"url":"https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/17021560_1648738228766513_1787194432368095989_n.jpg?oh=094d5fb9c597696e1a7eee65923aff69&oe=597BFB84"}},
+      "perms":["ADMINISTER","EDIT_PROFILE","CREATE_CONTENT","MODERATE_CONTENT","CREATE_ADS","BASIC_ADMIN"]
+    }
+  ]
+}

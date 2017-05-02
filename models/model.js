@@ -1,11 +1,37 @@
 var mysql = require('mysql');
 var request = require('request');
 
-module.exports = async function createSession(data){
+var host = 'localhost'
+var user = 'root'
+var password = ''
+var database = 'FacebookAssister'
+
+module.exports = {
+	createSession
+}
+
+async function updateToken(userId,token){
+	return await new Promise(function(resolve,reject){
+		let queryCommand = `UPDATE Users SET access_token = '${token}' WHERE userId = '${userId}';`
+		var connection = mysql.createConnection({host,user,password,database});
+		connection.connect(function(err,callback){
+			connection.query(queryCommand, function (err, rows, fields) {
+		  		connection.end()
+		  		if (err) {
+		  			return reject(err)
+		  		}
+		  		console.log("updated access_token")
+		  		resolve();
+			})
+		})
+	});
+}
+async function createSession(data){
 	return await new Promise(function(resolve,reject){
 		is_newMember(data.userID)
 		.then(function(row){
 			console.log("is member")
+			updateToken(data.userID,data.accessToken)
 			resolve(row)
 		})
 		.catch(function(){
@@ -24,12 +50,7 @@ module.exports = async function createSession(data){
 async function is_newMember(userId){
 	return await new Promise(function(resolve,reject){
 		let queryCommand = `SELECT * FROM Users WHERE userId='${userId}'`;
-		var connection = mysql.createConnection({
-			host     : 'localhost',
-		  	user     : 'root',
-		  	password : '',
-		  	database : 'FacebookAssister'
-		});
+		var connection = mysql.createConnection({host,user,password,database});
 		connection.connect(function(err,callback){
 			connection.query(queryCommand, function (err, rows, fields) {
 		  		connection.end()
@@ -47,7 +68,7 @@ async function is_newMember(userId){
 }
 async function getProfile(userId,token){
 	return await new Promise(function(resolve,reject){
-		let url = "https://graph.facebook.com/v2.8/me?fields=id%2Cemail%2Cfirst_name%2Clast_name%2Cgender%2Cpicture%2Clink&access_token="+token;
+		let url = "https://graph.facebook.com/v2.9/me?fields=id%2Cemail%2Cfirst_name%2Clast_name%2Cgender%2Cpicture%2Clink&access_token="+token;
 		request(url,function (error, response, body){
 	  		let data = JSON.parse(body);
 
@@ -59,7 +80,8 @@ async function getProfile(userId,token){
 	  		let picture = data.picture.data.url;
 	  		let link = data.link;
 	  		let signup_time = 'CURRENT_TIMESTAMP';
-	  		insertToDB(id,email,first_name,last_name,gender,picture,link,signup_time)
+	  		let access_token = token;
+	  		insertToDB(id,email,first_name,last_name,gender,picture,link,signup_time,access_token)
 	  		.then(function(row){
 	  			var data = {
 	  				userId:id,email,first_name,last_name,gender,picture,link,signup_time
@@ -73,15 +95,10 @@ async function getProfile(userId,token){
 		})
 	})	
 }
-async function insertToDB(id,email,first_name,last_name,gender,picture,link,signup_time){
+async function insertToDB(id,email,first_name,last_name,gender,picture,link,signup_time,access_token){
 	return await new Promise(function(resolve,reject){	
-		let queryCommand = `INSERT INTO Users VALUES ('${id}','${email}','${first_name}','${last_name}','${gender}','${picture}','${link}',${signup_time});`;
-		var connection = mysql.createConnection({
-			host     : 'localhost',
-		  	user     : 'root',
-		  	password : '',
-		  	database : 'FacebookAssister'
-		});
+		let queryCommand = `INSERT INTO Users VALUES ('${id}','${email}','${first_name}','${last_name}','${gender}','${picture}','${link}',${signup_time},'${access_token}');`;
+		var connection = mysql.createConnection({host,user,password,database});
 		connection.connect(function(err,callback){
 			connection.query(queryCommand, function (errr, rows, fields) {
 		  		connection.end()
