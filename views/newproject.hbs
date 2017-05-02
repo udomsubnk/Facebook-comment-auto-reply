@@ -1,8 +1,11 @@
 <h2>Choose your page for manage</h2>
+
 {{#each session.pages}}
-	<div id="pages">
+	<div onclick="selected('{{this.id}}','{{this.access_token}}')" class="page" id="{{this.id}}">
 		<img src="{{this.picture.data.url}}">
-		{{this.name}}
-		<button onclick="selectPage('{{this.access_token}}','{{this.id}}')">select this page</button>
+		<span>{{this.name}}</span>
+		<span page_id="{{this.id}}" hidden="true">{{this.name}}</span>
 	</div>
 {{/each}}
+<button onclick="next()" id="next">Continue</button>
+<a href="/dashboard">Back to dashboard</a>

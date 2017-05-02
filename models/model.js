@@ -7,9 +7,25 @@ var password = ''
 var database = 'FacebookAssister'
 
 module.exports = {
-	createSession,callaccounts
+	createSession,callaccounts,choosedpage
 }
 
+async function choosedpage(page_id,page_name,page_access_token){
+	return await new Promise(function(resolve,reject){
+		let queryCommand = `INSERT INTO Pages VALUES ('${page_id}','${page_name}','page_access_token');`;
+		var connection = mysql.createConnection({host,user,password,database});
+		connection.connect(function(err,callback){
+			connection.query(queryCommand, function (errr, rows, fields) {
+		  		connection.end()
+		  		if (errr) {
+		  			return reject(errr);
+		  		}
+		  		console.log('insert Page To DB Success!')
+		  		resolve(page_id);
+			})
+		})
+	});
+}
 async function callaccounts(user_token){
 	return await new Promise(function(resolve,reject){
 		let url = "https://graph.facebook.com/v2.9/me?fields=accounts%7Bname%2Cid%2Cperms%2Cpicture%2Caccess_token%7D&access_token="+user_token;

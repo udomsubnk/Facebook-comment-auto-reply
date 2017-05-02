@@ -1,0 +1,6 @@
+.page{
+	cursor: pointer;
+}
+.selected{
+	background-color: #54C5FF;
+}

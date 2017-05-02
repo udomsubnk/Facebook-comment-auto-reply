@@ -9,13 +9,13 @@ router.get('/', function(req, res, next) {
 	if(session.userId){
 		res.redirect('/dashboard');
 	}else{
-	  	res.render('index', { title: 'Facebook Assister',layout:'layout/layout' });
+	  	res.render('index', { title: 'Facebook Assister',layout:'layout/layout',name:'index' });
 	}
 });
 router.get('/dashboard',function(req,res,next){
 	session = req.session;
 	if(session.userId){
-		res.render('dashboard',{title:'Dashboard',layout:'layout/dashboard',session});
+		res.render('dashboard',{title:'Dashboard',layout:'layout/dashboard',name:'dashboard',session});
 	}else{
 		res.redirect('/');
 	}
@@ -24,7 +24,7 @@ router.get('/newproject',function(req,res,next){
 	session = req.session;
 	console.log(session.pages)
 	if(session.userId && session.pages.length){
-		res.render('newproject',{title:'New project',layout:'layout/newproject',session});
+		res.render('newproject',{title:'New project',layout:'layout/newproject',name:'newproject',session});
 	}else{
 		res.redirect('/dashboard');
 	}
@@ -69,9 +69,16 @@ router.post('/callaccounts',function(req,res,next){
 	session = req.session;
 	model.callaccounts(session.access_token)
 		.then(function(data){
-			console.log(JSON.stringify(data))
 			session.pages = data.accounts.data;
 			res.send("success")
 		})
+});
+router.post('/choosedpage',function(req,res,next){
+	let page_id = req.body.page_id;
+	let page_name = req.body.page_name;
+	let page_access_token = req.body.page_access_token;
+	model.choosedpage(page_id,page_name,page_access_token)
+		.then((page_id)=>{res.send('success'+','+page_id)})
+		.catch(()=>{res.send('fail')})
 });
 module.exports = router;
