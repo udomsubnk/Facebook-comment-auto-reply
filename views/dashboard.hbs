@@ -3,9 +3,13 @@
 <button onclick="logout()">logout</button>
 <button onclick="create()">Create Project</button>
 
+<br>
 Your projects
 {{#each projects}}
 	<div id="project">
+		<img src="{{this.page_picture}}" alt="">
 		{{this.page_name}}
+		<span hidden="true">{{this.page_id}}</span>
+		<span hidden="true">{{this.page_access_token}}</span>
 	</div>
 {{/each}}
