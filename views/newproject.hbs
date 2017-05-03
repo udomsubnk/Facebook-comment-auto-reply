@@ -5,6 +5,7 @@
 		<img src="{{this.picture.data.url}}">
 		<span>{{this.name}}</span>
 		<span page_id="{{this.id}}" hidden="true">{{this.name}}</span>
+		<span page_id="{{this.id}}-picture" hidden="true">{{this.picture.data.url}}</span>
 	</div>
 {{/each}}
 <button onclick="next()" id="next">Continue</button>

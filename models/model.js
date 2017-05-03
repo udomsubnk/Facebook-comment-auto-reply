@@ -25,9 +25,9 @@ async function getPersonalProjects(user_id){
 		})
 	});
 }
-async function choosedpage(page_id,page_name,page_access_token,user_id){
+async function choosedpage(page_id,page_name,page_access_token,user_id,page_picture){
 	return await new Promise(function(resolve,reject){
-		let queryCommand = `INSERT INTO Pages VALUES ('${page_id}','${page_name}','${page_access_token}','${user_id}');`;
+		let queryCommand = `INSERT INTO Pages VALUES ('${page_id}','${page_name}','${page_access_token}','${user_id}','${page_picture}');`;
 		var connection = mysql.createConnection({host,user,password,database});
 		connection.connect(function(err,callback){
 			connection.query(queryCommand, function (errr, rows, fields) {
