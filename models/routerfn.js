@@ -13,7 +13,12 @@ module.exports = {
 	dashboard : function(req,res,next){
 		session = req.session;
 		if(session.userId){
-			res.render('dashboard',{title:'Dashboard',layout:'layout/dashboard',name:'dashboard',session});
+			model.getPersonalProjects(session.userId).then((projects)=>{
+				console.log(JSON.stringify(projects))
+				res.render('dashboard',{title:'Dashboard',layout:'layout/dashboard',name:'dashboard',session,projects});
+			}).catch(()=>{
+				res.redirect('/');
+			})
 		}else{
 			res.redirect('/');
 		}

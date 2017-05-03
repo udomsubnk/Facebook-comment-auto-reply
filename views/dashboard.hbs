@@ -2,3 +2,10 @@
 <img src="{{session.picture}}">
 <button onclick="logout()">logout</button>
 <button onclick="create()">Create Project</button>
+
+Your projects
+{{#each projects}}
+	<div id="project">
+		{{this.page_name}}
+	</div>
+{{/each}}
