@@ -88,7 +88,7 @@ module.exports = {
 		if(session.userId){
 			let page_id = req.params.page_id;
 			model.isProjectHasAccessByRealOwner(session.userId,page_id)
-				.then(()=> res.render('project',{title:'project',layout:'layout/project',name:'project',session}) )
+				.then((project)=> res.render('project',{title:'project',layout:'layout/project',name:'project',session,project}) )
 				.catch(()=> res.send("Don't try it again!") )
 		}else res.redirect('/')
 	}

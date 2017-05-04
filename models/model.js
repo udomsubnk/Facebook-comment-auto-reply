@@ -24,7 +24,7 @@ async function isProjectHasAccessByRealOwner(user_id,page_id){
 		  		if (errr) {
 		  			return reject(errr);
 		  		}
-	  			if(rows.length) resolve()
+	  			if(rows.length) resolve(rows[0])
 	  			else reject()
 			})
 		})
