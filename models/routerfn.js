@@ -25,21 +25,20 @@ module.exports = {
 	},
 	newproject : function(req,res,next){
 		session = req.session;
-		console.log(session.pages)
 		if(session.userId && session.pages.length){
-			res.render('newproject',{title:'New project',layout:'layout/newproject',name:'newproject',session});
+			model.getPersonalProjects(session.userId).then((projects)=>{
+				for(let i=0;i<projects.length;i++){
+					for(let j=0;j<session.pages.length;j++){
+						if(projects[i].page_id == session.pages[j].id){
+							session.pages[j].is_personal_page = true;
+							break;
+						}
+					}
+				}
+				res.render('newproject',{title:'New project',layout:'layout/newproject',name:'newproject',session});
+			})
 		}else{
 			res.redirect('/dashboard');
-		}
-	},
-	setPages : function(req,res,next){
-		session = req.session;
-		if(session.userId){
-			session.pages = JSON.parse(req.body.res).data;
-			console.log(session.pages)
-			res.send("success");
-		}else{
-			res.send("fail")
 		}
 	},
 	login : function(req,res,next){

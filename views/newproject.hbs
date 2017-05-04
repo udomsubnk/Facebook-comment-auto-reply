@@ -1,7 +1,7 @@
 <h2>Choose your page for manage</h2>
 
 {{#each session.pages}}
-	<div onclick="selected('{{this.id}}','{{this.access_token}}')" class="page" id="{{this.id}}">
+	<div onclick="selected('{{this.id}}','{{this.access_token}}')" class="page {{#if this.is_personal_page}}disable{{/if}}" id="{{this.id}}">
 		<img src="{{this.picture.data.url}}">
 		<span>{{this.name}}</span>
 		<span page_id="{{this.id}}" hidden="true">{{this.name}}</span>

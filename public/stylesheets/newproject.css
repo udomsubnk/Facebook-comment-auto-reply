@@ -4,3 +4,7 @@
 .selected{
 	background-color: #54C5FF;
 }
+.disable{
+	background-color: red;
+	cursor: not-allowed;
+}
