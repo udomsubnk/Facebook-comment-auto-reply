@@ -6,8 +6,8 @@
 <br>
 Your projects
 {{#each projects}}
-	<div id="project">
-		<img src="{{this.page_picture}}" alt="">
+	<div class="project" onclick="clickProject('{{this.page_id}}')">
+		<img src="{{this.page_picture}}">
 		{{this.page_name}}
 		<span hidden="true">{{this.page_id}}</span>
 		<span hidden="true">{{this.page_access_token}}</span>

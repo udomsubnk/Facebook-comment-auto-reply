@@ -12,3 +12,6 @@ function create(){
         }
     });
 }
+function clickProject(page_id){
+    window.location = '/project/'+page_id;
+}

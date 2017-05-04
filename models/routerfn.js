@@ -82,5 +82,14 @@ module.exports = {
 		model.choosedpage(page_id,page_name,page_access_token,user_id,page_picture)
 			.then((page_id)=>{res.send('success'+','+page_id)})
 			.catch(()=>{res.send('fail')})
+	},
+	project : function(req,res,next){
+		session = req.session;
+		if(session.userId){
+			let page_id = req.params.page_id;
+			model.isProjectHasAccessByRealOwner(session.userId,page_id)
+				.then(()=> res.render('project',{title:'project',layout:'layout/project',name:'project',session}) )
+				.catch(()=> res.send("Don't try it again!") )
+		}else res.redirect('/')
 	}
 }

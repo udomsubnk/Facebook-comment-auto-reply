@@ -7,7 +7,28 @@ var password = ''
 var database = 'FacebookAssister'
 
 module.exports = {
-	createSession,callaccounts,choosedpage,getPersonalProjects
+	createSession,
+	callaccounts,
+	choosedpage,
+	getPersonalProjects,
+	isProjectHasAccessByRealOwner
+}
+
+async function isProjectHasAccessByRealOwner(user_id,page_id){
+	return await new Promise(function(resolve,reject){
+		let queryCommand = `SELECT * FROM Pages WHERE page_id = '${page_id}' AND user_id = '${user_id}';`;
+		var connection = mysql.createConnection({host,user,password,database});
+		connection.connect(function(err,callback){
+			connection.query(queryCommand, function (errr, rows, fields) {
+		  		connection.end()
+		  		if (errr) {
+		  			return reject(errr);
+		  		}
+	  			if(rows.length) resolve()
+	  			else reject()
+			})
+		})
+	});
 }
 async function getPersonalProjects(user_id){
 	return await new Promise(function(resolve,reject){
