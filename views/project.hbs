@@ -1,3 +1,40 @@
 <h1>Page manage</h1>
-<img src="{{project.page_picture}}">
-{{project.page_name}}
+<img src="{{session.currentProject.page_picture}}">
+{{session.currentProject.page_name}}
+
+<br>
+<button onclick="createBot()" id="createbot-btn">Create bot</button>
+
+<div id="createbot">
+	<div class="posts"></div>
+	<div class="next" hidden="true">
+		<button onclick="next()">next</button>
+	</div>
+</div>
+
+<script>
+	function createBot(){
+		$.post('/createbot', function(data, textStatus, xhr) {
+			if(data == 'fail') {
+				alert('กรุณาลองใหม่ภายหลัง')
+				window.location = '/'
+			}
+			else{
+				try{
+					if(JSON.parse(data).posts.paging.next){
+						$('.next').show()
+					}
+				}catch(e){}
+				let posts = JSON.parse(data).posts.data
+				$('#createbot-btn').hide()
+				for(i in posts){
+					$('.posts').append(`<div>${posts[i].id}<br>${posts[i].message}</div>`)
+				}
+			}
+		});
+	}
+	function next(){
+		url = data.posts.paging.next
+		console.log(url)
+	}
+</script>

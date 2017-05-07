@@ -88,8 +88,26 @@ module.exports = {
 		if(session.userId){
 			let page_id = req.params.page_id;
 			model.isProjectHasAccessByRealOwner(session.userId,page_id)
-				.then((project)=> res.render('project',{title:'project',layout:'layout/project',name:'project',session,project}) )
+				.then((project)=>{
+					session.currentProject = project;
+					res.render('project',{title:'project',layout:'layout/project',name:'project',session}) 
+				})
 				.catch(()=> res.send("Don't try it again!") )
 		}else res.redirect('/')
+	},
+	createbot : function(req,res,next){
+		session = req.session;
+		if(!session.userId) {
+			res.send('fail')
+			return;
+		}
+		let page_id = session.currentProject.page_id;
+		let page_access_token = session.currentProject.page_access_token;
+		model.checkExpiredGetNewAndUpdate(page_id,page_access_token,'Pages').then((new_page_access_token)=>{
+			model.getPosts( new_page_access_token , 10 ).then((posts_rows)=>{
+				session.currentProject.page_access_token = new_page_access_token;
+				res.json(posts_rows);
+			}).catch(()=>res.send('fail'))
+		}).catch(()=>res.send('fail'))
 	}
 }

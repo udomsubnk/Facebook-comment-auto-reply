@@ -1,19 +1,73 @@
 var mysql = require('mysql');
 var request = require('request');
-
-var host = 'localhost'
-var user = 'root'
-var password = ''
-var database = 'FacebookAssister'
+//Database setup
+let host = 'localhost'
+let user = 'root'
+let password = ''
+let database = 'FacebookAssister'
+//Facebook App setup
+let app_id = '106886806531561'
+let app_secret = 'c85c9ccd03cc7460d5cadb5dcdfc7078'
 
 module.exports = {
 	createSession,
 	callaccounts,
 	choosedpage,
 	getPersonalProjects,
-	isProjectHasAccessByRealOwner
+	isProjectHasAccessByRealOwner,
+	getPosts,
+	checkExpiredGetNewAndUpdate
 }
 
+async function checkExpiredGetNewAndUpdate(id,token,table){
+	return await new Promise(function(resolve,reject){
+		checkExpiredToken(token).then(()=>{
+			resolve(token)
+		}).catch(()=>{
+			getLongLiveToken(token).then((long_live_token)=>{
+				updateToken(id,long_live_token,table).then((long_live_token)=>{
+					resolve(long_live_token);
+				}).catch(()=>{
+					reject();
+				})
+			})
+		})
+	})
+}
+async function checkExpiredToken(token){
+	return await new Promise(function(resolve,reject){
+		let url = "https://graph.facebook.com/v2.9/me?access_token="+token
+		request(url,function(err,res,body){
+			body = JSON.parse(body)
+			if(body.error){
+				reject();
+			}
+			else{
+				resolve()
+			}
+		})
+	});
+}
+async function getLongLiveToken(temporaryToken){
+	return await new Promise(function(resolve,reject){
+		let url = `https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=${app_id}&client_secret=${app_secret}&fb_exchange_token=${temporaryToken}`
+		request(url,function(err,res,body){
+			if(err) return reject()
+			let long_live_token = JSON.parse(body).access_token
+			resolve(long_live_token)
+		});
+	});
+}
+async function getPosts(access_token,n){
+	return await new Promise(function(resolve,reject){
+ 		let url = `https://graph.facebook.com/v2.9/me?fields=posts.limit(${n})&access_token=`+access_token;
+ 		request(url,function(err,res,body){
+ 			if(err) return reject();
+			let posts_rows = body
+			resolve(posts_rows);
+ 		});
+	});
+}
 async function isProjectHasAccessByRealOwner(user_id,page_id){
 	return await new Promise(function(resolve,reject){
 		let queryCommand = `SELECT * FROM Pages WHERE page_id = '${page_id}' AND user_id = '${user_id}';`;
@@ -71,9 +125,11 @@ async function callaccounts(user_token){
 		});
 	});
 }
-async function updateToken(userId,token){
+async function updateToken(userOrPageId,token,table){
 	return await new Promise(function(resolve,reject){
-		let queryCommand = `UPDATE Users SET access_token = '${token}' WHERE userId = '${userId}';`
+		let id_column = (table=='Users')?'userId':'page_id'
+		let token_column = (table=='Users')?'access_token':'page_access_token'
+		let queryCommand = `UPDATE ${table} SET ${token_column} = '${token}' WHERE ${id_column} = '${userOrPageId}';`
 		var connection = mysql.createConnection({host,user,password,database});
 		connection.connect(function(err,callback){
 			connection.query(queryCommand, function (err, rows, fields) {
@@ -82,7 +138,7 @@ async function updateToken(userId,token){
 		  			return reject(err)
 		  		}
 		  		console.log("updated access_token")
-		  		resolve();
+		  		resolve(token);
 			})
 		})
 	});
@@ -92,8 +148,8 @@ async function createSession(data){
 		is_newMember(data.userID)
 		.then(function(row){
 			console.log("is member")
-			updateToken(data.userID,data.accessToken)
-			resolve(row)
+			updateToken(data.userID,data.accessToken,'Users')
+			.then(()=>resolve(row))
 		})
 		.catch(function(){
 			getProfile(data.userID,data.accessToken)

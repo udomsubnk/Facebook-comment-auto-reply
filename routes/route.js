@@ -11,5 +11,5 @@ router.post('/login', routerfn.login )
 router.post('/logout', routerfn.logout );
 router.post('/callaccounts', routerfn.callaccounts );
 router.post('/choosedpage', routerfn.choosedpage );
-
+router.post('/createbot', routerfn.createbot );
 module.exports = router;
