@@ -9,12 +9,13 @@
 	<div class="posts"></div>
 	<div class="next" hidden="true">
 		<button onclick="next()">next</button>
+		<span id="next_url" hidden="true"></span>
 	</div>
 </div>
 
 <script>
-	function createBot(){
-		$.post('/createbot', function(data, textStatus, xhr) {
+	function createBot(next_url){
+		$.post('/createbot',function(data, textStatus, xhr) {
 			if(data == 'fail') {
 				alert('กรุณาลองใหม่ภายหลัง')
 				window.location = '/'
@@ -22,6 +23,8 @@
 			else{
 				try{
 					if(JSON.parse(data).posts.paging.next){
+						let next_url = JSON.parse(data).posts.paging.next
+						$('span#next_url').text(next_url)
 						$('.next').show()
 					}
 				}catch(e){}
@@ -34,7 +37,25 @@
 		});
 	}
 	function next(){
-		url = data.posts.paging.next
-		console.log(url)
+		let next_url = $('span#next_url').text()
+		$.get(next_url, function(data, textStatus, xhr) {
+			append(data)
+		});
+	}
+	function append(data){
+		try{
+			if(data.paging.next){
+				let next_url = data.paging.next
+				$('span#next_url').text(next_url)
+				$('.next').show()
+			}else{
+				$('.next').hide()
+			}
+		}catch(e){}
+		let posts = data.data
+		$('#createbot-btn').hide()
+		for(i in posts){
+			$('.posts').append(`<div>${posts[i].id}<br>${posts[i].message}</div>`)
+		}
 	}
 </script>

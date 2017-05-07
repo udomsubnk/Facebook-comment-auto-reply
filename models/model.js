@@ -22,8 +22,10 @@ module.exports = {
 async function checkExpiredGetNewAndUpdate(id,token,table){
 	return await new Promise(function(resolve,reject){
 		checkExpiredToken(token).then(()=>{
+			console.log('yes')
 			resolve(token)
 		}).catch(()=>{
+			console.log('no')
 			getLongLiveToken(token).then((long_live_token)=>{
 				updateToken(id,long_live_token,table).then((long_live_token)=>{
 					resolve(long_live_token);
