@@ -15,7 +15,7 @@ module.exports = {
 		if(session.userId){
 			model.getPersonalProjects(session.userId).then((projects)=>{
 				console.log(JSON.stringify(projects))
-				res.render('dashboard',{title:'Dashboard',layout:'layout/dashboard',name:'dashboard',session,projects});
+				res.render('dashboard',{title:'Dashboard',layout:'layout/layout',name:'dashboard',session,projects});
 			}).catch(()=>{
 				res.redirect('/');
 			})
@@ -35,7 +35,7 @@ module.exports = {
 						}
 					}
 				}
-				res.render('newproject',{title:'New project',layout:'layout/newproject',name:'newproject',session});
+				res.render('newproject',{title:'New project',layout:'layout/layout',name:'newproject',session});
 			})
 		}else{
 			res.redirect('/dashboard');
@@ -90,7 +90,7 @@ module.exports = {
 			model.isProjectHasAccessByRealOwner(session.userId,page_id)
 				.then((project)=>{
 					session.currentProject = project;
-					res.render('project',{title:'project',layout:'layout/project',name:'project',session}) 
+					res.render('project',{title:'project',layout:'layout/layout',name:'project',session}) 
 				})
 				.catch(()=> res.send("Don't try it again!") )
 		}else res.redirect('/')
