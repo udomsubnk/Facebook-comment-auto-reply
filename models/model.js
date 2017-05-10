@@ -62,7 +62,7 @@ async function getLongLiveToken(temporaryToken){
 }
 async function getPosts(access_token,n){
 	return await new Promise(function(resolve,reject){
- 		let url = `https://graph.facebook.com/v2.9/me?fields=posts.limit(${n})&access_token=`+access_token;
+ 		let url = `https://graph.facebook.com/v2.9/me?fields=posts.limit(${n}){picture,message,attachments}&access_token=`+access_token;
  		request(url,function(err,res,body){
  			if(err) return reject();
 			let posts_rows = body

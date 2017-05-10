@@ -14,7 +14,6 @@ module.exports = {
 		session = req.session;
 		if(session.userId){
 			model.getPersonalProjects(session.userId).then((projects)=>{
-				console.log(JSON.stringify(projects))
 				res.render('dashboard',{title:'Dashboard',layout:'layout/layout',name:'dashboard',session,projects});
 			}).catch(()=>{
 				res.redirect('/');
@@ -70,7 +69,7 @@ module.exports = {
 		model.callaccounts(session.access_token)
 			.then(function(data){
 				session.pages = data.accounts.data;
-				res.send("success")
+				res.json(data)
 			})
 	},
 	choosedpage : function(req,res,next){
@@ -108,6 +107,24 @@ module.exports = {
 				session.currentProject.page_access_token = new_page_access_token;
 				res.json(posts_rows);
 			}).catch(()=>res.send('fail'))
+		}).catch(()=>res.send('fail'))
+	},
+	commentsbot : function(req,res,next){
+		session = req.session;
+		if(session.userId){
+			model.getPersonalProjects(session.userId).then((projects)=>{
+			  	res.render('commentsbot', { title: 'Comments bot',layout:'layout/layout',name:'commentsbot',session,projects });
+			}).catch(()=>{
+				res.redirect('/');
+			})
+		}else{
+			res.redirect('/');
+		}
+	},
+	getposts : function(req,res,next){
+		let page_access_token = req.body.page_access_token;
+		model.getPosts( page_access_token , 30 ).then((posts_rows)=>{
+			res.json(posts_rows);
 		}).catch(()=>res.send('fail'))
 	}
 }

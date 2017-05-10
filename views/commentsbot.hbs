@@ -1,0 +1,26 @@
+<h1>comments bot</h1>
+<button onclick="addcommentsbot()" id="addcommentsbot-btn">+ Add Comments Bot</button>
+<div id="addcommentsbot" hidden="true">
+	หากมีคำต่อไปนี้<input type="text" name="contrain" /><br>
+	ให้ตอบกลับไปว่า <textarea name="reply" rows="3"></textarea><br>
+	เลือกเพจของคุณ 
+	<select id="pageSelect">
+		<option selected disabled>เลือกเพจของคุณ</option>
+	</select>
+	<div hidden="true" class="postSelect">
+		เลือกโพสของคุณ 
+		<select id="postSelect">
+			<option selected>โพสทั้งหมด</option>
+		</select>
+	</div>
+	ซ่อนคอมเมนต์ 
+</div>
+
+{{#each projects}}
+	<div class="project">
+		<img src="{{this.page_picture}}">
+		{{this.page_name}}
+		<span hidden="true">{{this.page_id}}</span>
+		<span hidden="true">{{this.page_access_token}}</span>
+	</div>
+{{/each}}
