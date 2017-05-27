@@ -17,9 +17,25 @@ module.exports = {
 	isProjectHasAccessByRealOwner,
 	getPosts,
 	checkExpiredGetNewAndUpdate,
-	createCommentBot
+	createCommentBot,
+	getPersonalCommentsBot
 }
 
+async function getPersonalCommentsBot(user_id){
+	return await new Promise(function(resolve,reject){
+		let queryCommand = `SELECT * FROM comments_bot WHERE create_by_user_id = '${user_id}'`;
+		var connection = mysql.createConnection({host,user,password,database});
+		connection.connect(function(err,callback){
+			connection.query(queryCommand, function (errr, rows, fields) {
+		  		connection.end()
+		  		if (errr) {
+		  			return reject(errr);
+		  		}
+	  			resolve(rows)
+			})
+		})
+	})
+}
 async function createCommentBot(data,userId){
 	return await new Promise(function(resolve,reject){
 		let contrain = data.contrain;

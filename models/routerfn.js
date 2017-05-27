@@ -112,7 +112,9 @@ module.exports = {
 	commentsbot : function(req,res,next){
 		session = req.session;
 		if(session.userId){
-		  	res.render('commentsbot', { title: 'Comments bot',layout:'layout/layout',name:'commentsbot',session });
+			model.getPersonalCommentsBot(session.userId).then((personal_comments_bot)=>{
+			  	res.render('commentsbot', { title: 'Comments bot',layout:'layout/layout',name:'commentsbot',session,personal_comments_bot });
+			})
 		}else{
 			res.redirect('/');
 		}

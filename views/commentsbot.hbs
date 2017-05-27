@@ -25,3 +25,18 @@
 		<button onclick="createCommentBot()">เพิ่ม comment bot</button>
 	</div>
 </div>
+
+{{#each personal_comments_bot}}
+	<div>
+		{{this.cmbot_id}}
+		{{this.page_id}}
+		{{this.post_id}}
+		{{this.create_by_user_id}}
+		{{this.contrains}}
+		{{this.is_hide_comment}}
+		{{this.cm_reply}}
+		{{this.is_ms_reply}}
+		{{this.ms_reply}}
+		
+	</div>
+{{/each}}

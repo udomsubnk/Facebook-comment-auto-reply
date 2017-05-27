@@ -35,7 +35,7 @@ function createCommentBot(){
 			window.location = ''
 			return;
 		}
-		alert(data)
+		alert('สำเร็จ')
 		window.location = ''
 	});
 }
