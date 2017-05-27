@@ -15,5 +15,6 @@ router.post('/callaccounts', routerfn.callaccounts );
 router.post('/choosedpage', routerfn.choosedpage );
 router.post('/createbot', routerfn.createbot );
 router.post('/getposts', routerfn.getposts );
+router.post('/createCommentBot', routerfn.createCommentBot );
 
 module.exports = router;

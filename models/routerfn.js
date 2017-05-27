@@ -126,5 +126,17 @@ module.exports = {
 		model.getPosts( page_access_token , 30 ).then((posts_rows)=>{
 			res.json(posts_rows);
 		}).catch(()=>res.send('fail'))
+	},
+	createCommentBot : function(req,res,next){
+		session = req.session;
+		if(!session.userId){
+			res.send('Please Login!')
+			return;
+		}
+		data = req.body;
+		model.createCommentBot(data,session.userId).then(()=>{
+			console.log('resolve')
+			res.send('resolve')
+		}).catch(()=>res.send('error'))
 	}
 }

@@ -16,9 +16,33 @@ module.exports = {
 	getPersonalProjects,
 	isProjectHasAccessByRealOwner,
 	getPosts,
-	checkExpiredGetNewAndUpdate
+	checkExpiredGetNewAndUpdate,
+	createCommentBot
 }
 
+async function createCommentBot(data,userId){
+	return await new Promise(function(resolve,reject){
+		let contrain = data.contrain;
+		let cm_reply = data.cm_reply;
+		let page_id = data.page_select;
+		let post_id = data.post_select;
+		let is_hide_comment = data.is_hide_comment;
+		let is_ms_reply = data.is_ms_reply;
+		let ms_reply = data.ms_reply;
+
+		let queryCommand = `INSERT INTO comments_bot VALUES ('','${page_id}','${post_id}','${userId}','${contrain}','${is_hide_comment}','${cm_reply}','${is_ms_reply}','${ms_reply}')`;
+		var connection = mysql.createConnection({host,user,password,database});
+		connection.connect(function(err,callback){
+			connection.query(queryCommand, function (errr, rows, fields) {
+		  		connection.end()
+		  		if (errr) {
+		  			return reject(errr);
+		  		}
+	  			resolve()
+			})
+		})
+	});
+}
 async function checkExpiredGetNewAndUpdate(id,token,table){
 	return await new Promise(function(resolve,reject){
 		checkExpiredToken(token).then(()=>{
