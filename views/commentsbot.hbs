@@ -25,12 +25,3 @@
 		<button onclick="createCommentBot()">เพิ่ม comment bot</button>
 	</div>
 </div>
-
-{{#each projects}}
-	<div class="project">
-		<img src="{{this.page_picture}}">
-		{{this.page_name}}
-		<span hidden="true">{{this.page_id}}</span>
-		<span hidden="true">{{this.page_access_token}}</span>
-	</div>
-{{/each}}
