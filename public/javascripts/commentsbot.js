@@ -10,6 +10,21 @@ $(document).ready(function() {
 	})
 });
 
+function changeStatus(cmbot_id,that){
+	let old_status = $(that).text();
+	let new_status = (old_status == 'on')?'off':'on';
+	let data = {
+		cmbot_id,new_status
+	}
+	$.post('/changeCmStatus', data, function(data, textStatus, xhr) {
+		if(data != 'success'){
+			window.location = '';
+			return;
+		}
+		alert(data)
+		$(that).text(new_status);
+	});
+}
 function createCommentBot(){
 	let contrain = $('#contrain').val()
 	let cm_reply = $('#cm_reply').val()

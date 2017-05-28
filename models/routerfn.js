@@ -136,5 +136,16 @@ module.exports = {
 			console.log('resolve')
 			res.send('resolve')
 		}).catch(()=>res.send('error'))
+	},
+	changeCmStatus : function(req,res,next){
+		session = req.session;
+		if(!session.userId){
+			res.send('Please Login!')
+			return;
+		}
+		data = req.body;
+		model.changeCmStatus(session.userId,data).then(()=>{
+			res.send('success')
+		}).catch(()=>res.send('fail'))
 	}
 }
