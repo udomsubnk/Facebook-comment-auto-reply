@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var routerget = require('../models/routerget')
-var routerpost = require('../models/routerpost')
+var routerget = require('./routerget')
+var routerpost = require('./routerpost')
 
 
 router.get('/', routerget.index );
