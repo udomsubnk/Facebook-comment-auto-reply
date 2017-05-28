@@ -7,7 +7,7 @@ router.get('/dashboard', routerfn.dashboard );
 router.get('/newproject', routerfn.newproject );
 router.get('/project/:page_id', routerfn.project );
 router.get('/commentsbot', routerfn.commentsbot );
-
+router.get('/messagesbot', routerfn.messagesbot );
 
 router.post('/login', routerfn.login )
 router.post('/logout', routerfn.logout );

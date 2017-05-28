@@ -19,3 +19,6 @@ function clickProject(page_id){
 function gotoCommentsBot(){
     window.location = '/commentsbot'
 }
+function gotoMessagesBot(){
+    window.location = '/messagesbot'
+}

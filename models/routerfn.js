@@ -147,5 +147,13 @@ module.exports = {
 		model.changeCmStatus(session.userId,data).then(()=>{
 			res.send('success')
 		}).catch(()=>res.send('fail'))
+	},
+	messagesbot : function(req,res,next){
+		session = req.session;
+		if(!session.userId){
+			res.send('Please Login!')
+			return;
+		}
+		
 	}
 }
