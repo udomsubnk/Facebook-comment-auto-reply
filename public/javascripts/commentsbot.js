@@ -80,10 +80,12 @@ function getposts(){
 	$.post('/getposts', {page_access_token}, function(data, textStatus, xhr) {
 		$('#postSelect').html(`<option value ="all_posts" selected>โพสทั้งหมด</option>`)
 		data = JSON.parse(data);
+		console.log(data)
 		if(data.posts){
 			for(i in data.posts.data){
 				var message = "";
 				let picture = data.posts.data[i].picture
+				let post_id = data.posts.data[i].id;
 				if(data.posts.data[i].message){
 					message = data.posts.data[i].message
 				}else if(data.posts.data[i].attachments){
@@ -94,7 +96,7 @@ function getposts(){
 				}
 				if(typeof message == 'string')
 					message = message.substring(0,50);
-				$('#postSelect').append(`<option value="${data.posts.data[i].id}">${message}</option>`)
+				$('#postSelect').append(`<option value="${post_id}">${message}</option>`)
 			}
 		}
 	});
