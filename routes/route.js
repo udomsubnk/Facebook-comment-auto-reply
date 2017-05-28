@@ -1,21 +1,23 @@
 var express = require('express');
 var router = express.Router();
-var routerfn = require('../models/routerfn')
+var routerget = require('../models/routerget')
+var routerpost = require('../models/routerpost')
 
-router.get('/', routerfn.index );
-router.get('/dashboard', routerfn.dashboard );
-router.get('/newproject', routerfn.newproject );
-router.get('/project/:page_id', routerfn.project );
-router.get('/commentsbot', routerfn.commentsbot );
-router.get('/messagesbot', routerfn.messagesbot );
 
-router.post('/login', routerfn.login )
-router.post('/logout', routerfn.logout );
-router.post('/callaccounts', routerfn.callaccounts );
-router.post('/choosedpage', routerfn.choosedpage );
-router.post('/createbot', routerfn.createbot );
-router.post('/getposts', routerfn.getposts );
-router.post('/createCommentBot', routerfn.createCommentBot );
-router.post('/changeCmStatus', routerfn.changeCmStatus );
+router.get('/', routerget.index );
+router.get('/dashboard', routerget.dashboard );
+router.get('/newproject', routerget.newproject );
+router.get('/project/:page_id', routerget.project );
+router.get('/commentsbot', routerget.commentsbot );
+router.get('/messagesbot', routerget.messagesbot );
+
+router.post('/login', routerpost.login )
+router.post('/logout', routerpost.logout );
+router.post('/callaccounts', routerpost.callaccounts );
+router.post('/choosedpage', routerpost.choosedpage );
+router.post('/createbot', routerpost.createbot );
+router.post('/getposts', routerpost.getposts );
+router.post('/createCommentBot', routerpost.createCommentBot );
+router.post('/changeCmStatus', routerpost.changeCmStatus );
 
 module.exports = router;
