@@ -46,7 +46,7 @@ async function createCommentBot(data,userId){
 		let is_ms_reply = data.is_ms_reply;
 		let ms_reply = data.ms_reply;
 
-		let queryCommand = `INSERT INTO comments_bot VALUES ('','${page_id}','${post_id}','${userId}','${contrain}','${is_hide_comment}','${cm_reply}','${is_ms_reply}','${ms_reply}')`;
+		let queryCommand = `INSERT INTO comments_bot VALUES ('','${page_id}','${post_id}','${userId}','${contrain}','${is_hide_comment}','${cm_reply}','${is_ms_reply}','${ms_reply}','on')`;
 		var connection = mysql.createConnection({host,user,password,database});
 		connection.connect(function(err,callback){
 			connection.query(queryCommand, function (errr, rows, fields) {
