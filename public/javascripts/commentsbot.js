@@ -8,8 +8,15 @@ $(document).ready(function() {
 			$('.ms_reply').show()
 		else $('.ms_reply').hide()
 	})
+	checkColor();
 });
 
+function checkColor(){
+	$('.change_status_btn').each((i,el)=>{
+		if($(el).text()=='on') $(el).css('background-color', '#5FF53B');
+		else $(el).css('background-color', '#FC1455');
+	})
+}
 function changeStatus(cmbot_id,that){
 	let old_status = $(that).text();
 	let new_status = (old_status == 'on')?'off':'on';
@@ -21,8 +28,8 @@ function changeStatus(cmbot_id,that){
 			window.location = '';
 			return;
 		}
-		alert(data)
 		$(that).text(new_status);
+		checkColor();
 	});
 }
 function createCommentBot(){
