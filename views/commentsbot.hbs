@@ -27,15 +27,15 @@
 
 {{#each personal_comments_bot}}
 	<div class="{{this.cmbot_id}}">
-		cmbot_id:{{this.cmbot_id}}
-		page_id:{{this.page_id}}
-		post_id:{{this.post_id}}
-		create_by_user_id:{{this.create_by_user_id}}
-		contrains:{{this.contrains}}
-		is_hide_comment:{{this.is_hide_comment}}
-		cm_reply:{{this.cm_reply}}
-		is_ms_reply:{{this.is_ms_reply}}
-		ms_reply:{{this.ms_reply}}
+		{{this.cmbot_id}}
+		{{this.page_id}}
+		{{this.post_id}}
+		{{this.create_by_user_id}}
+		{{this.contrains}}
+		{{this.is_hide_comment}}
+		{{this.cm_reply}}
+		{{this.is_ms_reply}}
+		{{this.ms_reply}}
 		<button class="change_status_btn" onclick="changeStatus('{{this.cmbot_id}}',this)">{{this.status}}</button>
 		<button>แก้ไข</button>
 		

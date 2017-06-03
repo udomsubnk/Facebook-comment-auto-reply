@@ -19,9 +19,24 @@ module.exports = {
 	checkExpiredGetNewAndUpdate,
 	createCommentBot,
 	getPersonalCommentsBot,
-	changeCmStatus
+	changeCmStatus,
+	getPersonalMessagesBot
 }
-
+async function getPersonalMessagesBot(user_id){
+	return await new Promise(function(resolve,reject){
+		let queryCommand = `SELECT * FROM Messages_bot WHERE create_by_user_id = '${user_id}'`;
+		var connection = mysql.createConnection({host,user,password,database});
+		connection.connect(function(err,callback){
+			connection.query(queryCommand, function (errr, rows, fields) {
+		  		connection.end()
+		  		if (errr) {
+		  			return reject(errr);
+		  		}
+	  			resolve(rows)
+			})
+		})
+	})
+}
 async function changeCmStatus(userId,data){
 	return await new Promise(function(resolve,reject){
 		let queryCommand = `UPDATE comments_bot SET status = '${data.new_status}' WHERE cmbot_id = '${data.cmbot_id}' AND create_by_user_id = '${userId}'`;

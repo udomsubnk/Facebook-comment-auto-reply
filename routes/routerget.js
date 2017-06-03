@@ -64,10 +64,12 @@ module.exports = {
 	},
 	messagesbot : function(req,res,next){
 		session = req.session;
-		if(!session.userId){
-			res.send('Please Login!')
-			return;
+		if(session.userId){
+			model.getPersonalMessagesBot(session.userId).then((personal_comments_bot)=>{
+			  	res.render('messagesbot', { title: 'Messages Bot',layout:'layout/layout',name:'messagesbot',session,personal_comments_bot });
+			})
+		}else{
+			res.redirect('/');
 		}
-		
 	}
 }
