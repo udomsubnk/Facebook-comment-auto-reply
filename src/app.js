@@ -1,37 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-// class Main extends React.Component {
-//     constructor() {
-//         super();
-//         this.state = {
-//             text: 'Chuck Norris'
-//         }
-//     }
-
-//     updateText(event) {
-//         this.setState({
-//             text: event.target.value
-//         });
-//     }
-
-//     render() {
-//         return (
-//             <div>
-//                 <h1>{this.state.text}</h1>
-//                 <input type="text" onChange={this.updateText.bind(this)} />
-//             </div>
-//         )
-//     }
-// }
-
-// ReactDOM.render(<Main />, document.getElementById('main'));
-
+import React from 'react'
 import {
   BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom'
+
 const Home = () => (
   <div>
     <h2>Home</h2>
@@ -96,4 +69,3 @@ const BasicExample = () => (
   </Router>
 )
 export default BasicExample
-ReactDOM.render(<BasicExample />, document.getElementById('main'));

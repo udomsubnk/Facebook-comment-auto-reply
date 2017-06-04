@@ -3,13 +3,13 @@ var router = express.Router();
 var routerget = require('./routerget')
 var routerpost = require('./routerpost')
 
-
 router.get('/', routerget.index );
-router.get('/dashboard', routerget.dashboard );
-router.get('/newproject', routerget.newproject );
-router.get('/project/:page_id', routerget.project );
-router.get('/commentsbot', routerget.commentsbot );
-router.get('/messagesbot', routerget.messagesbot );
+// router.get('/dashboard', routerget.dashboard );
+// router.get('/newproject', routerget.newproject );
+// router.get('/project/:page_id', routerget.project );
+// router.get('/commentsbot', routerget.commentsbot );
+// router.get('/messagesbot', routerget.messagesbot );
+router.get('*',routerget.all)
 
 router.post('/login', routerpost.login )
 router.post('/logout', routerpost.logout );
