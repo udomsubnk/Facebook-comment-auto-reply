@@ -73,6 +73,9 @@ module.exports = {
 	// 	}
 	// }
 	all : function(req, res){
-	  res.render('dashboard',{title:'Facebook Assister',layout:'layout/layout',name:'dashboard'});
+		session = req.session;
+		if(session.userId){
+	  		res.render('dashboard',{title:'Facebook Assister',layout:'layout/layout',name:'dashboard'});
+	  	}else res.redirect('/');
 	}
 }
